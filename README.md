@@ -39,25 +39,54 @@ git clone https://github.com/lth-fighting/SENS-Q.git
 cd SENS-Q
 ```
 
-### 2. Install dependencies
-```bash
-# Core dependencies (PyTorch, mamba‑ssm, scikit‑learn, etc.)
-pip install -r requirements.txt
+### 2. Set up a virtual environment (recommended for reproducibility)
+We recommend using **Conda** (Python 3.8+) or Python’s built‑in `venv`.
 
-# Optional: Web demo dependencies
-pip install -r webapp/requirements.txt
+**Option A – Conda**:
+```bash
+conda create -n sensq python=3.10 -y
+conda activate sensq
 ```
 
-> **Note**: The Mamba state‑space model requires the `mamba-ssm` package. Please follow [mamba‑ssm installation guide](https://github.com/state-spaces/mamba) if you encounter issues.
+**Option B – venv + pip**:
+```bash
+python -m venv sensq-env
+# Linux / macOS
+source sensq-env/bin/activate
+# Windows
+sensq-env\Scripts\activate
+```
 
-### 3. Prepare the dataset
-Download the preprocessed *E. coli* ribosome stalling dataset (228,000 sequences with biophysical annotations) and place the CSV files in `data/processed_data/`:
+### 3. Install PyTorch (must match your CUDA version)
+The code was tested with PyTorch 2.4.1 and CUDA 11.8.  
+For the same setup:
+```bash
+pip install torch==2.4.1 torchvision==0.19.1 torchaudio==2.4.1 --index-url https://download.pytorch.org/whl/cu118
+```
+For a CPU‑only installation, omit the `--index-url`.
 
-- `train_Ecoli_data.csv`
-- `val_Ecoli_data.csv`
-- `test_Ecoli_data.csv`
+### 4. Install core dependencies
+```bash
+pip install -r requirements.txt
+```
+This installs `mamba‑ssm`, `numpy`, `pandas`, `scikit‑learn`, `scipy`, `matplotlib`, `tqdm`, and all necessary sub‑dependencies.
 
-The dataset is publicly available from the original publications (Cambray *et al.*, 2018; Nikolados *et al.*, 2022). See the **Data Availability** section in the paper for details.
+### 5. Prepare the dataset
+Download the preprocessed *E. coli* ribosome stalling dataset (228,000 sequences with biophysical annotations) from the sources listed in **Data Availability** of the paper.  
+Place the CSV files in the `data/processed_data/` directory:
+
+```
+data/processed_data/
+├── train_Ecoli_data.csv
+├── val_Ecoli_data.csv
+└── test_Ecoli_data.csv
+```
+
+### 6. [Optional] Web demo dependencies
+To run the interactive web dashboard:
+```bash
+pip install -r webapp/requirements.txt
+```
 
 ---
 
@@ -65,10 +94,11 @@ The dataset is publicly available from the original publications (Cambray *et al
 
 ### Train the full‑precision model
 ```bash
-# Train from scratch (adjust paths as needed)
 python -m utils.training
 ```
 This will produce a checkpoint `best_model.pth` inside `checkpoints/`.
+
+> **Note**: Training from scratch requires the dataset to be correctly placed and the Mamba‑SSM library to be installed.
 
 ### Apply SENS‑Q quantization (3‑bit, default τ=0.05)
 ```bash
