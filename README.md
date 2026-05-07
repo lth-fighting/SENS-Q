@@ -21,7 +21,7 @@ Post‑training quantization (PTQ) in biological sequence models faces a unique 
 
 **SENS‑Q** introduces three key innovations:
 
-1. **Signal Protection** – Squared‑gradient sensitivities are computed over calibration data to identify high‑impact weights. These are preserved in full precision using compressed sparse row (CSR) storage.
+1. **Signal Protection** – Squared‑gradient sensitivities are computed over calibration data (200 sequences) to identify high‑impact weights. These are preserved in full precision using compressed sparse row (CSR) storage.
 
 2. **Perception‑Driven Compression** – A sensitivity‑weighted non‑uniform K‑means objective replaces isotropic L₂ distortion. Limited quantization centroids are allocated preferentially to weights with high Fisher information, preserving biophysical feature resolution.
 
@@ -51,7 +51,13 @@ SENS-Q/
 │   ├── exp1_performance.py      # Bit‑width vs. performance
 │   ├── exp2_sensitivity_robustness.py  # Sensitivity threshold, calibration size
 │   ├── exp3_biological_interpretability.py  # Feature importance, attention fidelity
-│   └── ...                      # Visualization utilities (gradients, clustering, attention)
+│   ├── visualize_outliers.py    # Outlier distribution heatmap
+│   ├── visualize_gradients.py   # Gradient violin/heatmap plots
+│   ├── visualize_clustering.py  # Center pulling effect
+│   ├── visualize_attention.py   # Combined sample heatmap (Fig. 7B)
+│   ├── multiple_quantization.py # Multi‑run stability analysis
+│   ├── uniform_quant_baseline.py# Uniform quantization comparison
+│   └── plot_sensitivity_curve.py # Sensitivity threshold curve (Fig. 6)
 ├── webapp/                  # Interactive demo
 │   ├── backend/app.py           # Flask API (can load quantized model)
 │   ├── frontend/dashboard_server.py  # 3D molecular viewer + prediction dashboard
@@ -102,8 +108,8 @@ The dataset is publicly available from the original publications (Cambray *et al
 
 ### Train the full‑precision model
 ```bash
-python -m utils.training  # (if training script is modularized) 
-# or directly run the training code (provided in original cmt.py)
+# Train from scratch (adjust paths as needed)
+python -m utils.training
 ```
 This will produce a checkpoint `best_model.pth` inside `checkpoints/`.
 
@@ -144,6 +150,8 @@ Make sure the trained model (`best_model.pth`) is in the project root (or adjust
 | Clustering analysis | `visualize_clustering.py` | Center pulling effect |
 | Attention heatmaps | `visualize_attention.py` | Combined sample heatmap (Fig. 7B) |
 | Uniform quantization baseline | `uniform_quant_baseline.py` | Comparison with uniform PTQ |
+| Multi‑run stability | `multiple_quantization.py` | Boxplots of R² across runs |
+| Sensitivity curve | `plot_sensitivity_curve.py` | Cubic spline interpolation (Fig. 6) |
 
 Run with `python -m experiments.<script_name>` after placing the required checkpoints.
 
@@ -198,7 +206,7 @@ If you use this code or method, please cite our paper:
 
 ## 📧 Contact
 
-For questions, please contact **Weiliang Zeng** (weiliangzeng@gdut.edu.cn) or **Tianhui Li** (3085237492@qq.com).  
+For questions, please contact **Tianhui Li** (3085237492@qq.com) or **Weiliang Zeng** (weiliangzeng@gdut.edu.cn).  
 Code repository: [https://github.com/lth-fighting/SENS-Q](https://github.com/lth-fighting/SENS-Q)
 
 ---
