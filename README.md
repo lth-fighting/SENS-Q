@@ -31,49 +31,6 @@ The method is evaluated on a **hybrid CNN‑Mamba‑Transformer** architecture t
 
 ---
 
-## 📁 Repository Structure
-
-```
-SENS-Q/
-├── models/                  # Model architecture
-│   ├── model_architecture.py    # CNNMambaTransformer, MambaPlus, Transformer, fusion
-│   └── dataset.py               # DNA k‑mer encoding, dataset loading
-├── quantization/            # SENS‑Q pipeline
-│   ├── quant_layer.py           # QuantLinearLUT (LUT‑based linear layer)
-│   ├── sensitivity.py           # Gradient sensitivity computation, outlier removal
-│   ├── clustering.py            # Sensitivity‑weighted K‑means fine‑tuning
-│   └── quantize_main.py         # Main quantization driver (CLI)
-├── evaluation/              # Evaluation and comparison tools
-│   ├── model_io.py              # Model loading (FP32 / quantized)
-│   ├── metrics.py               # R², MAE, MSE, inference speed
-│   └── compare_models.py        # Original vs. quantized comparison
-├── experiments/             # Reproducibility scripts
-│   ├── exp1_performance.py      # Bit‑width vs. performance
-│   ├── exp2_sensitivity_robustness.py  # Sensitivity threshold, calibration size
-│   ├── exp3_biological_interpretability.py  # Feature importance, attention fidelity
-│   ├── visualize_outliers.py    # Outlier distribution heatmap
-│   ├── visualize_gradients.py   # Gradient violin/heatmap plots
-│   ├── visualize_clustering.py  # Center pulling effect
-│   ├── visualize_attention.py   # Combined sample heatmap (Fig. 7B)
-│   ├── multiple_quantization.py # Multi‑run stability analysis
-│   ├── uniform_quant_baseline.py# Uniform quantization comparison
-│   └── plot_sensitivity_curve.py # Sensitivity threshold curve (Fig. 6)
-├── webapp/                  # Interactive demo
-│   ├── backend/app.py           # Flask API (can load quantized model)
-│   ├── frontend/dashboard_server.py  # 3D molecular viewer + prediction dashboard
-│   ├── start.py                 # One‑click launcher
-│   └── requirements.txt
-├── utils/                   # Training loop, plotting styles
-├── data/
-│   └── processed_data/          # Place E. coli dataset here (train/val/test CSV)
-├── checkpoints/             # Training checkpoints (generated)
-├── requirements.txt         # Core dependencies
-├── LICENSE
-└── README.md
-```
-
----
-
 ## ⚙️ Installation
 
 ### 1. Clone the repository
