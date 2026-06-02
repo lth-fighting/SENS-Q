@@ -174,23 +174,6 @@ By default, the demo uses a simplified predictor; **to deploy the actual quantiz
 
 ---
 
-## 📜 Citation
-
-If you use this code or method, please cite our paper:
-
-```bibtex
-@article{li2026sensq,
-  title={SENS‑Q: Sensitivity‑Guided Non‑Uniform Quantization for Efficient and 
-         Biologically Faithful Prediction of Ribosome Stalling with Hybrid Deep Learning Models},
-  author={Li, Tianhui and Liu, Huiping and Zeng, Weiliang},
-  journal={IEEE/ACM Transactions on Computational Biology and Bioinformatics},
-  year={2026},
-  publisher={IEEE}
-}
-```
-
----
-
 ## 📧 Contact
 
 For questions, please contact **Tianhui Li** (3085237492@qq.com) or **Weiliang Zeng** (weiliangzeng@gdut.edu.cn).  
